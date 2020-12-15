@@ -1,2 +1,8 @@
+# Jet brains
+/.idea/
+
+# VS Code
+/.vscode/
+
 /node_modules/
 /static/config.json
