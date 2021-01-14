@@ -36,6 +36,14 @@
     list-style: outside;
   }
 
+  .do-beta-version-label {
+    position: absolute;
+    top: 40px;
+    right: 270px;
+    z-index: 2;
+    color: orange;
+  }
+
   // MAIN GRID =================
 
   .main-grid {
@@ -237,6 +245,15 @@
   .legend-item {
     display: flex;
     align-items: center;
+
+    &-filter {
+      cursor: pointer;
+      opacity: 0.3;
+
+      &.active {
+        opacity: 1;
+      }
+    }
 
     &-icon {
       padding: 4px;

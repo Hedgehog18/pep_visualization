@@ -33,26 +33,22 @@ const S = {
 };
 
 const linkTypes = {
+  // PEP
   owner: 'owner',
-  beneficiary: 'beneficiary',
-  head: 'head',
+  // beneficiary: 'beneficiary',
+  manager: 'manager',
   family: 'family',
   business: 'business',
   personal: 'personal',
+  possible: 'possible',
+
+  // COMPANY
+  ownership: 'ownership',
+
+  // OTHER
   other: 'other',
   inactive: 'inactive',
 };
-
-const filters = [
-  { name: 'family', label: 'Родинні зв\'язки' },
-  { name: 'personal', label: 'Особисті зв\'язки' },
-  { name: 'business', label: 'Ділові зв\'язки' },
-  { name: 'head', label: 'Керівник' },
-  { name: 'beneficiary', label: 'Бенефіціар' },
-  { name: 'owner', label: 'Власник' },
-  { name: 'pep', label: 'Публічні особи' },
-  { name: 'person', label: 'Фізичні особи' },
-];
 
 const PEP = 'pep';
 const COMPANY = 'company';
@@ -95,27 +91,34 @@ class PepCompanyScheme {
     };
 
     this.linkColors = {
+      // COMPANY
+      [linkTypes.ownership]: '#03A7EA',
+
+      // PEP
       [linkTypes.business]: '#F39200',
       [linkTypes.family]: '#FF47DD',
       [linkTypes.personal]: '#FF006B',
-      [linkTypes.head]: '#1F4999',
-      [linkTypes.beneficiary]: '#852500',
-      [linkTypes.owner]: '#03A7EA',
+      [linkTypes.manager]: '#1F4999',
+      [linkTypes.owner]: '#852500',
+      [linkTypes.possible]: '#03A7EA',
+
+      // OTHER
       [linkTypes.other]: '#B6B6B6',
       [linkTypes.inactive]: '#B6B6B6',
+      // [linkTypes.beneficiary]: '#852500',
       ...options.linkColors,
     };
 
-    this.linkLabels = {
-      [linkTypes.owner]: 'Власник',
-      [linkTypes.beneficiary]: 'Бенефіціар',
-      [linkTypes.head]: 'Керівник',
-      [linkTypes.business]: 'Ділові зв\'язки',
-      [linkTypes.family]: 'Родинні зв\'язки',
-      [linkTypes.personal]: 'Особисті зв\'язки',
-      [linkTypes.other]: 'Інше',
-      ...options.linkLabels,
-    };
+    // this.linkLabels = {
+    //   [linkTypes.owner]: 'Власник',
+    //   // [linkTypes.beneficiary]: 'Бенефіціар',
+    //   [linkTypes.head]: 'Керівник',
+    //   [linkTypes.business]: 'Ділові зв\'язки',
+    //   [linkTypes.family]: 'Родинні зв\'язки',
+    //   [linkTypes.personal]: 'Особисті зв\'язки',
+    //   [linkTypes.other]: 'Інше',
+    //   ...options.linkLabels,
+    // };
 
     this.center = {
       x: this.width / 2,
@@ -132,54 +135,124 @@ class PepCompanyScheme {
       link: null,
       simulation: null,
     };
-    this.linkTypeByRelationship = new Map([
-      // owner
-      ['owner', linkTypes.owner],
-      ['власник', linkTypes.owner],
-      ['власність', linkTypes.owner],
-      ['співвласник', linkTypes.owner],
-      ['спільна власність', linkTypes.owner],
-      ['спільна сумісна власність', linkTypes.owner],
-      // beneficiary
-      ['бенефіціарний власник', linkTypes.beneficiary],
-      // head
-      ['керівник', linkTypes.head],
-      ['директор', linkTypes.head],
-      // business
-      ['ділові зв\'язки', linkTypes.business],
-      // personal
-      ['особисті зв\'язки', linkTypes.personal],
-      ['особи, які спільно проживають', linkTypes.personal],
-      ['пов\'язані спільним побутом і мають взаємні права та обов\'язки', linkTypes.personal],
-      // family
-      ['усиновлювач', linkTypes.family],
-      ['падчерка', linkTypes.family],
-      ['дід', linkTypes.family],
-      ['рідний брат', linkTypes.family],
-      ['мати', linkTypes.family],
-      ['син', linkTypes.family],
-      ['невістка', linkTypes.family],
-      ['внук', linkTypes.family],
-      ['мачуха', linkTypes.family],
-      ['особа, яка перебуває під опікою або піклуванням', linkTypes.family],
-      ['усиновлений', linkTypes.family],
-      ['внучка', linkTypes.family],
-      ['батько', linkTypes.family],
-      ['рідна сестра', linkTypes.family],
-      ['зять', linkTypes.family],
-      ['чоловік', linkTypes.family],
-      ['опікун чи піклувальник', linkTypes.family],
-      ['дочка', linkTypes.family],
-      ['свекор', linkTypes.family],
-      ['тесть', linkTypes.family],
-      ['теща', linkTypes.family],
-      ['баба', linkTypes.family],
-      ['пасинок', linkTypes.family],
-      ['вітчим', linkTypes.family],
-      ['дружина', linkTypes.family],
-      ['свекруха', linkTypes.family],
-    ]);
+    // this.linkTypeByRelationship = new Map([
+    //   // owner
+    //   ['owner', linkTypes.owner],
+    //   ['власник', linkTypes.owner],
+    //   ['власність', linkTypes.owner],
+    //   ['співвласник', linkTypes.owner],
+    //   ['спільна власність', linkTypes.owner],
+    //   ['спільна сумісна власність', linkTypes.owner],
+    //   // beneficiary
+    //   ['бенефіціарний власник', linkTypes.beneficiary],
+    //   // head
+    //   ['керівник', linkTypes.manager],
+    //   ['директор', linkTypes.manager],
+    //   // business
+    //   ['ділові зв\'язки', linkTypes.business],
+    //   // personal
+    //   ['особисті зв\'язки', linkTypes.personal],
+    //   ['особи, які спільно проживають', linkTypes.personal],
+    //   ['пов\'язані спільним побутом і мають взаємні права та обов\'язки', linkTypes.personal],
+    //   // family
+    //   ['усиновлювач', linkTypes.family],
+    //   ['падчерка', linkTypes.family],
+    //   ['дід', linkTypes.family],
+    //   ['рідний брат', linkTypes.family],
+    //   ['мати', linkTypes.family],
+    //   ['син', linkTypes.family],
+    //   ['невістка', linkTypes.family],
+    //   ['внук', linkTypes.family],
+    //   ['мачуха', linkTypes.family],
+    //   ['особа, яка перебуває під опікою або піклуванням', linkTypes.family],
+    //   ['усиновлений', linkTypes.family],
+    //   ['внучка', linkTypes.family],
+    //   ['батько', linkTypes.family],
+    //   ['рідна сестра', linkTypes.family],
+    //   ['зять', linkTypes.family],
+    //   ['чоловік', linkTypes.family],
+    //   ['опікун чи піклувальник', linkTypes.family],
+    //   ['дочка', linkTypes.family],
+    //   ['свекор', linkTypes.family],
+    //   ['тесть', linkTypes.family],
+    //   ['теща', linkTypes.family],
+    //   ['баба', linkTypes.family],
+    //   ['пасинок', linkTypes.family],
+    //   ['вітчим', linkTypes.family],
+    //   ['дружина', linkTypes.family],
+    //   ['свекруха', linkTypes.family],
+    // ]);
     this.companyDetailTemplate = null;
+
+    this.companyDefaultFilter = [
+      {
+        label: 'Власність',
+        name: 'show_founder_of',
+        linkType: linkTypes.ownership,
+        type: 'bool',
+        state: true,
+      },
+      {
+        label: 'Власник',
+        name: 'peps_relations',
+        linkType: linkTypes.owner,
+        value: 'owner',
+        state: true,
+      },
+      {
+        label: 'Керівник',
+        name: 'peps_relations',
+        linkType: linkTypes.manager,
+        value: 'manager',
+        state: true,
+      },
+    ];
+
+    this.pepDefaultFilter = [
+      {
+        label: 'Власник',
+        name: 'company_relations',
+        linkType: linkTypes.owner,
+        value: 'owner',
+        state: true,
+      },
+      {
+        label: 'Керівник',
+        name: 'company_relations',
+        linkType: linkTypes.manager,
+        value: 'manager',
+        state: true,
+      },
+      {
+        label: 'Родинні зв\'язки',
+        name: 'pep_relations',
+        linkType: linkTypes.family,
+        value: 'family',
+        state: true,
+      },
+      {
+        label: 'Ділові зв\'язки',
+        name: 'pep_relations',
+        linkType: linkTypes.business,
+        value: 'business',
+        state: true,
+      },
+      {
+        label: 'Особисті зв\'язки',
+        name: 'pep_relations',
+        linkType: linkTypes.personal,
+        value: 'personal',
+        state: false,
+      },
+      {
+        label: 'Можливий зв\'язок',
+        name: 'show_check_companies',
+        linkType: linkTypes.possible,
+        icon: this.icons.other.dashedLine,
+        type: 'bool',
+        state: false,
+      },
+    ];
   }
 
   init() {
@@ -238,22 +311,126 @@ class PepCompanyScheme {
       { icon: this.icons.pep.active, label: 'Публічний діяч' },
       { icon: this.icons.peoples.active, label: 'Фізична особа' },
     ];
-    const legendLinks = [];
-    Object.values(linkTypes).forEach((linkType) => {
-      if (linkType in this.linkLabels) {
-        legendLinks.push({ color: this.linkColors[linkType], label: this.linkLabels[linkType] });
-      }
-    });
+    // const legendLinks = [];
+    // Object.values(linkTypes).forEach((linkType) => {
+    //   if (linkType in this.linkLabels) {
+    //     legendLinks.push({ color: this.linkColors[linkType], label: this.linkLabels[linkType] });
+    //   }
+    // });
     this.rootElement.innerHTML = template({
       showSearch: this.showSearch,
       icons: this.icons,
       themeDO: this.theme === themes.DATA_OCEAN,
       themeAA: this.theme === themes.ANT_AC,
-      filters,
       legendNodes,
-      legendLinks,
+      // legendLinks,
     });
     this.select(S.slideIcon).html(this.icons.other.slideUp);
+  }
+
+  renderFilters() {
+    const getIcon = (filter) => {
+      if (filter.icon) {
+        return filter.icon
+      }
+      return `<div class="legend-item-line" style="background-color: ${this.linkColors[filter.linkType]}"></div>`
+    }
+
+    const filters = this.selectedNode._filters;
+    // const filters = this.pepDefaultFilter;
+    let html = filters.map((filter, i) => {
+      return `
+        <div
+          class="legend-item legend-item-filter ${filter.state ? 'active' : ''}"
+          data-filter-id="${i}"
+        >
+          <div class="legend-item-icon">
+            ${getIcon(filter)}
+          </div>
+          <div class="legend-text">
+            ${filter.label}
+          </div>
+        </div>
+      `
+    })
+    this.select('.do-legend-filters').html(html);
+  }
+
+  handleFilterClick(e) {
+    let filterId = $(e.currentTarget).data('filter-id');
+    let filter = this.selectedNode._filters[filterId];
+    if (filter.state) {
+      let activeFiltersCount = this.selectedNode._filters.filter((f) => f.state).length;
+      if (activeFiltersCount <= 1) {
+        return;
+      }
+    }
+    filter.state = !filter.state;
+
+    this.renderFilters();
+    waitElementAndClick(`#${this.selectedNode.id}`);
+  }
+
+  filtersToQueryParams(filters) {
+    let params = new URLSearchParams()
+
+    filters.forEach((filter) => {
+      let name = filter.name;
+      let value;
+      if (filter.type === 'bool') {
+        if (filter.state === false) {
+          value = 'none';
+        } else {
+          value = filter.state.toString();
+        }
+      } else {
+        if (filter.state) {
+          value = filter.value;
+        } else {
+          value = 'null';
+        }
+      }
+
+      if (value === 'null') {
+        if (!params.has(name)) {
+          params.set(name, value);
+        }
+      } else if (params.has(name)) {
+        if (params.get(name) === 'null') {
+          params.set(name, value);
+        } else {
+          params.set(name, `${params.get(name)},${value}`);
+        }
+      } else {
+        params.set(name, value);
+      }
+    })
+    return params.toString();
+  }
+
+  removeAllLinksByType(filters) {
+    const deleteTypes = filters.filter((f) => !f.state).map((f) => f.linkType)
+    const d = this.selectedNode;
+    const deleteNodes = [];
+    this.links = this.links.filter((link) => {
+      if ([link.source, link.target].includes(d)) {
+        if (deleteTypes.includes(link._type)) {
+          if (link.source === d) {
+            if (link.target._linksCount === 1) {
+              deleteNodes.push(link.target);
+              return false;
+            }
+          } else if (link.target === d) {
+            if (link.source._linksCount === 1) {
+              deleteNodes.push(link.source);
+              return false;
+            }
+          }
+        }
+      }
+      return true;
+    });
+    this.nodes = this.nodes.filter((node) => !deleteNodes.includes(node))
   }
 
   startResizeTick() {
@@ -389,10 +566,10 @@ class PepCompanyScheme {
       this.nodes.push(newRootNode);
 
       data.founder_of.forEach((company) => {
-        addChildNode(company, COMPANY, false, { _type: linkTypes.owner });
+        addChildNode(company, COMPANY, false, { _type: linkTypes.ownership });
       });
       data.relationships_with_peps.forEach((linkWithPep) => {
-        const [pep, linkData] = this.extractObjAndLinkData(linkWithPep, 'pep', 'relationship_type');
+        const [pep, linkData] = this.extractObjAndLinkData(linkWithPep, 'pep', 'category');
         addChildNode(pep, PEP, true, linkData);
       });
     };
@@ -411,20 +588,19 @@ class PepCompanyScheme {
       newRootNode.id = this.getIdForNode(newRootNode);
       this.nodes.push(newRootNode);
       data.related_companies.forEach((linkWithCompany) => {
-        const [company, linkData] = this.extractObjAndLinkData(linkWithCompany, 'company', 'relationship_type');
+        const [company, linkData] = this.extractObjAndLinkData(linkWithCompany, 'company', 'category');
         addChildNode(company, COMPANY, false, linkData);
       });
       data.from_person_links.forEach((linkWithPerson) => {
-        const [pep, linkData] = this.extractObjAndLinkData(linkWithPerson, 'to_person', 'to_person_relationship_type');
+        const [pep, linkData] = this.extractObjAndLinkData(linkWithPerson, 'to_person', 'category');
         addChildNode(pep, PEP, false, linkData);
       });
       data.to_person_links.forEach((linkWithPerson) => {
-        const [pep, linkData] = this.extractObjAndLinkData(linkWithPerson, 'from_person',
-          'from_person_relationship_type');
+        const [pep, linkData] = this.extractObjAndLinkData(linkWithPerson, 'from_person', 'category');
         addChildNode(pep, PEP, true, linkData);
       });
       data.check_companies.forEach((item) => {
-        addChildNode(item, COMPANY, false, { _type: linkTypes.owner, probable: true });
+        addChildNode(item, COMPANY, false, { _type: linkTypes.possible });
       });
     };
     type === COMPANY ? parseCompany() : parsePep();
@@ -512,6 +688,9 @@ class PepCompanyScheme {
     });
     $(document).on('click', S.openCompany, (e) => {
       this.handleOpenCompany(e);
+    });
+    $(document).on('click', '.legend-item-filter', (e) => {
+      this.handleFilterClick(e);
     });
   }
 
@@ -741,19 +920,19 @@ class PepCompanyScheme {
     return !d.founder_of_count || d._opened ? true : null;
   }
 
-  getLinkTypeForLink(d) {
-    if (this.linkTypeByRelationship.has(d._type)) {
-      return this.linkTypeByRelationship.get(d._type);
-    }
-    return linkTypes.other;
-  }
+  // getLinkTypeForLink(d) {
+  //   if (this.linkTypeByRelationship.has(d._type)) {
+  //     return this.linkTypeByRelationship.get(d._type);
+  //   }
+  //   return linkTypes.other;
+  // }
 
   markerEnd(link, selectedNode) {
     let arrowId;
     let srcId = link.source.id || link.source;
     let dstId = link.target.id || link.target;
     if ([dstId, srcId].includes(selectedNode.id)) {
-      arrowId = `arrow-${this.getLinkTypeForLink(link)}-`;
+      arrowId = `arrow-${link._type}-`;
     } else {
       arrowId = 'arrow-inactive-';
     }
@@ -849,11 +1028,28 @@ class PepCompanyScheme {
     $detail.append(html);
   }
 
+  addDefaultFilters(d){
+    if (d._filters) {
+      return;
+    }
+    let filters;
+    if (d._type === PEP) {
+      filters = this.pepDefaultFilter;
+    } else if (d._type === COMPANY) {
+      filters = this.companyDefaultFilter;
+    } else {
+      throw new Error(`Bad node type - ${d._type}`)
+    }
+    d._filters = filters.map((f) => ({...f}));
+  }
+
   nodeClick(e, d) {
     if (e.defaultPrevented) {
       return;
     }
     this.selectedNode = d;
+    this.addDefaultFilters(d);
+    this.removeAllLinksByType(d._filters);
     this.scheme.svg.selectAll('.node')
       .style('stroke', (d) => this.nodeDefaultColor(d))
       .style('fill', (d) => this.nodeDefaultColor(d));
@@ -887,17 +1083,17 @@ class PepCompanyScheme {
     $detail.append(
       `<div class="side-block-l-container">${loadingElement}</div>`
     );
-    $.ajax(this.getUrlForType(d._type, this.getIdFromNode(d)), {
+    $.ajax(this.getUrlForType(d._type, this.getIdFromNode(d)) + '?' + this.filtersToQueryParams(d._filters), {
       headers: this.ajaxHeaders,
       success: (data) => {
         if (d._type === COMPANY) {
           // if (!d._opened) {
           this.increaseSimulationSpeed();
           this.addNewChildNodes(d, data.founder_of, COMPANY, (company) => {
-            return [company, { _type: linkTypes.owner }];
+            return [company, { _type: linkTypes.ownership }];
           }, false);
           this.addNewChildNodes(d, data.relationships_with_peps, PEP, (linkWithPep) => {
-            return this.extractObjAndLinkData(linkWithPep, 'pep', 'relationship_type');
+            return this.extractObjAndLinkData(linkWithPep, 'pep', 'category');
           }, true);
           // }
           this.renderCompanyDetail(data);
@@ -905,16 +1101,16 @@ class PepCompanyScheme {
           // if (!d._opened) {
           this.increaseSimulationSpeed();
           this.addNewChildNodes(d, data.from_person_links, PEP, (linkWithPep) => {
-            return this.extractObjAndLinkData(linkWithPep, 'to_person', 'to_person_relationship_type');
+            return this.extractObjAndLinkData(linkWithPep, 'to_person', 'category');
           }, false);
           this.addNewChildNodes(d, data.to_person_links, PEP, (linkWithPep) => {
-            return this.extractObjAndLinkData(linkWithPep, 'from_person', 'from_person_relationship_type');
+            return this.extractObjAndLinkData(linkWithPep, 'from_person', 'category');
           }, true);
           this.addNewChildNodes(d, data.related_companies, COMPANY, (linkWithCompany) => {
-            return this.extractObjAndLinkData(linkWithCompany, 'company', 'relationship_type');
+            return this.extractObjAndLinkData(linkWithCompany, 'company', 'category');
           }, false);
           this.addNewChildNodes(d, data.check_companies, COMPANY, (company) => {
-            return [company, { _type: linkTypes.owner, probable: true }];
+            return [company, { _type: linkTypes.possible }];
           }, false);
           // }
           this.renderPepDetail(data);
@@ -925,6 +1121,7 @@ class PepCompanyScheme {
         this.scheme.svg.selectAll('.child-count')
           .attr('hidden', this.hideCount);
         this.handleResizeRootElement();
+        this.renderFilters();
         this.update(d);
       }
     });
@@ -946,7 +1143,7 @@ class PepCompanyScheme {
     const sourceId = d.source.id || d.source;
     const targetId = d.target.id || d.target;
     if ([sourceId, targetId].includes(d_selected.id)) {
-      return this.linkColors[this.getLinkTypeForLink(d)];
+      return this.linkColors[d._type];
     } else {
       return this.linkColors.inactive;
     }
@@ -959,7 +1156,8 @@ class PepCompanyScheme {
   }
 
   linkDasharray(d, d_selected) {
-    if (d.probable) {
+    // if (d.probable) {
+    if (d._type === linkTypes.possible) {
       return '6 2';
     }
   }

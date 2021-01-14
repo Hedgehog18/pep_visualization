@@ -1,4 +1,7 @@
 <div class="do-pep-company-scheme {{#if themeAA}}theme-antac{{/if}}">
+  <div class="do-beta-version-label">
+    Beta version
+  </div>
   <div class="do-graph-container"></div>
   <div class="main-grid p-4 z-3">
     {{#if showSearch}}
@@ -7,6 +10,7 @@
         <input
             required
             type="text"
+            name="pep-search"
             class="do-company-search form-control"
             placeholder="Введіть код ЄДРПОУ або прізвище публічного діяча"
             autocomplete="on"
@@ -24,25 +28,26 @@
       </form>
     </div>
     {{/if}}
-    {{!-- TODO: filters --}}
-    {{#if false}}
-    <div class="do-filters side-block side-block-right z-3">
-      <div class="side-block-header show">
-        Фільтр
-        <div class="slide-icon"></div>
-      </div>
-      <div class="side-block-body show">
-        {{#each filters}}
-        <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" id="id_do_{{this.name}}" name="{{this.name}}">
-          <label class="custom-control-label" for="id_do_{{this.name}}">
-            {{this.label}}
-          </label>
+    {{!-- TODO: filters
+      {{#if false}}
+      <div class="do-filters side-block side-block-right z-3">
+        <div class="side-block-header show">
+          Фільтр
+          <div class="slide-icon"></div>
         </div>
-        {{/each}}
+        <div class="side-block-body show">
+          {{#each filters}}
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="id_do_{{this.name}}" name="{{this.name}}">
+            <label class="custom-control-label" for="id_do_{{this.name}}">
+              {{this.label}}
+            </label>
+          </div>
+          {{/each}}
+        </div>
       </div>
-    </div>
-    {{/if}}
+      {{/if}}
+    --}}
     <div style="display: none" class="do-node-detail side-block z-3">
       <div class="side-block-header">
         Деталі
@@ -67,24 +72,28 @@
           </div>
         </div>
         {{/each}}
-        {{#each legendLinks}}
-        <div class="legend-item">
-          <div class="legend-item-icon">
-            <div class="legend-item-line" style="background-color: {{this.color}}">
+        <div class="do-legend-filters">
+          {{!--
+          {{#each legendLinks}}
+          <div class="legend-item legend-item-filter">
+            <div class="legend-item-icon">
+              <div class="legend-item-line" style="background-color: {{this.color}}">
+              </div>
+            </div>
+            <div class="legend-text">
+              {{this.label}}
             </div>
           </div>
-          <div class="legend-text">
-            {{this.label}}
+          {{/each}}
+          <div class="legend-item legend-item-filter">
+            <div class="legend-item-icon">
+              {{{icons.other.dashedLine}}}
+            </div>
+            <div class="legend-text">
+              Можливий звязок
+            </div>
           </div>
-        </div>
-        {{/each}}
-        <div class="legend-item">
-          <div class="legend-item-icon">
-            {{{icons.other.dashedLine}}}
-          </div>
-          <div class="legend-text">
-            Можливий звязок
-          </div>
+          --}}
         </div>
       </div>
     </div>
